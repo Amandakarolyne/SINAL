@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINAL - Gestão Inteligente</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>📡 <span>SINAL</span></h1>
+    <p>Seu negócio em sintonia com o futuro.</p>
+</header>
+
+<div class="container">
+
+<nav>
+    <button class="active" onclick="abrir('dashboard', this)"> DASHBOARD</button>
+    <button onclick="abrir('alertas', this)"> ALERTAS</button>
+    <button onclick="abrir('historico', this)"> HISTÓRICO</button>
+    <button onclick="abrir('decisoes', this)"> DESISÕES</button>
+</nav>
+
+<main>
+
+<section id="dashboard" class="active">
+    <h2>Visão geral</h2>
+    <p class="subtitulo">Acompanhe o desempenho do seu negócio.</p>
+
+    <div class="cards">
+        <div class="card">
+            <p>Sinais encontrados</p>
+            <h3 id="total">5</h3>
+        </div>
+
+        <div class="card">
+            <p>Normal</p>
+            <h3 class="verde" id="normais">3</h3>
+        </div>
+
+        <div class="card">
+            <p>Atenção</p>
+            <h3 class="amarelo" id="atencoes">1</h3>
+        </div>
+
+        <div class="card">
+            <p>Crítico</p>
+            <h3 class="vermelho" id="criticos">1</h3>
+        </div>
+    </div>
+
+    <div class="painel">
+        <h3>Detector de Sinais</h3>
+        <p class="descricao">
+            O sistema acompanha os dados e identifica mudanças
+            importantes no negócio.
+        </p>
+
+        <button class="acao" onclick="simular()">
+            Simular novas vendas
+        </button>
+
+        <p id="resultado"></p>
+    </div>
+
+    <div class="painel">
+        <h3>Desempenho de vendas</h3>
+
+        <div class="item">
+            Cappuccino
+            <div class="barra"><div style="width:55%"></div></div>
+        </div>
+
+        <div class="item">
+            Café expresso
+            <div class="barra"><div style="width:85%"></div></div>
+        </div>
+
+        <div class="item">
+            Pão de queijo
+            <div class="barra"><div style="width:70%"></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="alertas">
+    <h2>Área de alertas</h2>
+    <p class="subtitulo">Mudanças identificadas pelo sistema.</p>
+
+    <div class="painel">
+        <div class="alerta critico">
+            🔴 <strong>Crítico</strong>
+            <p>As vendas de cappuccino diminuíram 22%
+            nas últimas duas semanas.</p>
+        </div>
+
+        <div class="alerta atencao">
+            🟡 <strong>Atenção</strong>
+            <p>O movimento nas manhãs diminuiu
+            em comparação ao período anterior.</p>
+        </div>
+
+        <div class="alerta normal">
+            🟢 <strong>Normal</strong>
+            <p>As vendas de pão de queijo estão
+            dentro do esperado.</p>
+        </div>
+    </div>
+</section>
+
+<section id="historico">
+    <h2>Histórico</h2>
+    <p class="subtitulo">Acompanhe as informações do negócio.</p>
+
+    <div class="painel">
+        <h3>Comparação de vendas</h3>
+        <p class="descricao">Últimas semanas (dados demonstrativos)</p>
+
+        <div class="item">
+            Semana 1
+            <div class="barra"><div style="width:90%"></div></div>
+        </div>
+
+        <div class="item">
+            Semana 2
+            <div class="barra"><div style="width:80%"></div></div>
+        </div>
+
+        <div class="item">
+            Semana 3
+            <div class="barra"><div style="width:65%"></div></div>
+        </div>
+
+        <div class="item">
+            Semana 4
+            <div class="barra"><div style="width:55%"></div></div>
+        </div>
+    </div>
+</section>
+
+<section id="decisoes">
+    <h2>Área de decisões</h2>
+    <p class="subtitulo">Registre as ações tomadas após os alertas.</p>
+
+    <div class="painel">
+        <h3>Registrar uma decisão</h3>
+
+        <input id="acaoTexto"
+        placeholder="Qual ação foi realizada?">
+
+        <textarea id="resultadoTexto"
+        placeholder="Qual foi o resultado observado?"></textarea>
+
+        <button class="acao" onclick="registrar()">
+            Salvar decisão
+        </button>
+
+        <div id="listaDecisoes"></div>
+    </div>
+</section>
+
+</main>
+</div>
+
+<script>
+function abrir(id, botao) {
+    document.querySelectorAll("section").forEach(s => {
+        s.classList.remove("active");
+    });
+
+    document.getElementById(id).classList.add("active");
+
+    document.querySelectorAll("nav button").forEach(b => {
+        b.classList.remove("active");
+    });
+
+    botao.classList.add("active");
+}
+
+function simular() {
+    document.getElementById("total").innerText = "6";
+    document.getElementById("normais").innerText = "3";
+    document.getElementById("atencoes").innerText = "1";
+    document.getElementById("criticos").innerText = "2";
+
+    document.getElementById("resultado").innerHTML =
+    "🔴 NOVO SINAL DETECTADO!<br>" +
+    "As vendas de cappuccino diminuíram 25%.<br>" +
+    "Recomendação: analisar a procura pelo produto.";
+}
+
+function registrar() {
+    const acao = document.getElementById("acaoTexto").value;
+    const resultado = document.getElementById("resultadoTexto").value;
+
+    if (!acao.trim() || !resultado.trim()) {
+        alert("Preencha os dois campos!");
+        return;
+    }
+
+    const item = document.createElement("div");
+    item.className = "alerta normal";
+
+    const titulo = document.createElement("strong");
+    titulo.textContent = "Decisão registrada";
+
+    const descricao = document.createElement("p");
+    descricao.textContent = "Ação: " + acao;
+
+    const observacao = document.createElement("p");
+    observacao.textContent = "Resultado: " + resultado;
+
+    item.append(titulo, descricao, observacao);
+
+    document.getElementById("listaDecisoes").appendChild(item);
+
+    document.getElementById("acaoTexto").value = "";
+    document.getElementById("resultadoTexto").value = "";
+}
+</script>
+
+</body>
+</html>
